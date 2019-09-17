@@ -1,0 +1,117 @@
+package Negocio.Modelos;
+
+import Integración.Factorias.FactoriaIntegracion;
+import Integración.Modelos.TModelo;
+import Integración.Query.FactoriaQuery;
+import Integración.Query.TQuery;
+import Integración.Transaction.TransactionManager;
+import java.util.ArrayList;
+
+public class SAModeloImp implements SAModelo {
+
+	public Integer crearModelo(TModelo modelo) {
+		FactoriaIntegracion factoriaIntegracion = FactoriaIntegracion.getInstance();
+		TransactionManager.getInstance().newTransaction().start();
+		TModelo modeloExiste = factoriaIntegracion.generaDAOModelo().read(modelo.getID());
+		Integer retorno = -1;
+		if (modeloExiste != null)
+			TransactionManager.getInstance().getTransaction().rollback();
+		else {
+			modeloExiste = factoriaIntegracion.generaDAOModelo().readByNombre(modelo.getNombre());
+			if (modeloExiste != null)
+				TransactionManager.getInstance().getTransaction().rollback();
+			else {
+				retorno = factoriaIntegracion.generaDAOModelo().create(modelo);
+				if (retorno != -1)
+					TransactionManager.getInstance().getTransaction().commit();
+				else
+					TransactionManager.getInstance().getTransaction().rollback();
+			}
+		}
+		TransactionManager.getInstance().deleteTransaction();
+		return retorno;
+	}
+
+	public Integer actualizarModelo(TModelo modelo) {
+		FactoriaIntegracion factoriaIntegracion = FactoriaIntegracion.getInstance();
+		TransactionManager.getInstance().newTransaction().start();
+		Integer retorno = -1;
+		TModelo modeloExiste = factoriaIntegracion.generaDAOModelo().read(modelo.getID());
+		if (modeloExiste == null) {
+			TransactionManager.getInstance().getTransaction().rollback();
+		} else {
+			retorno = factoriaIntegracion.generaDAOModelo().update(modelo);
+			if (retorno != -1)
+				TransactionManager.getInstance().getTransaction().commit();
+			else
+				TransactionManager.getInstance().getTransaction().rollback();
+
+		}
+		TransactionManager.getInstance().deleteTransaction();
+		return retorno;
+	}
+
+	public Integer borrarModelo(Integer idModelo) {
+		FactoriaIntegracion factoriaIntegracion = FactoriaIntegracion.getInstance();
+		TransactionManager.getInstance().newTransaction().start();
+		;
+		TModelo modeloExiste = factoriaIntegracion.generaDAOModelo().read(idModelo);
+		Integer retorno = -1;
+		if (modeloExiste == null) {
+			retorno = -2;
+			TransactionManager.getInstance().getTransaction().rollback();
+		} else {
+			if (modeloExiste.getActivo()) {
+				retorno = factoriaIntegracion.generaDAOModelo().delete(idModelo);
+				if (retorno != -1)
+					TransactionManager.getInstance().getTransaction().commit();
+
+				else
+					TransactionManager.getInstance().getTransaction().commit();
+			} else
+				TransactionManager.getInstance().getTransaction().rollback();
+
+		}
+		TransactionManager.getInstance().deleteTransaction();
+		return retorno;
+	}
+
+	public TModelo leerModelo(Integer idModelo) {
+		TModelo retorno = null;
+		FactoriaIntegracion factoriaIntegracion = FactoriaIntegracion.getInstance();
+		TransactionManager.getInstance().newTransaction().start();
+		retorno = factoriaIntegracion.generaDAOModelo().read(idModelo);
+		if (retorno != null) {
+			TransactionManager.getInstance().getTransaction().commit();
+		} else {
+			TransactionManager.getInstance().getTransaction().rollback();
+		}
+		TransactionManager.getInstance().deleteTransaction();
+		return retorno;
+	}
+
+	public ArrayList<TModelo> leerListaModelos() {
+		FactoriaIntegracion factoriaIntegracion = FactoriaIntegracion.getInstance();
+		TransactionManager.getInstance().newTransaction().start();
+		ArrayList<TModelo> retorno = factoriaIntegracion.generaDAOModelo().readAll();
+		if (retorno != null && retorno.size()>0)
+			TransactionManager.getInstance().getTransaction().commit();
+		else{
+			TransactionManager.getInstance().getTransaction().rollback();
+			retorno = null;
+		}
+		TransactionManager.getInstance().deleteTransaction();
+		return retorno;
+	}
+
+	public ArrayList<TModelo> queryModelo(TQuery query) {
+		TransactionManager.getInstance().newTransaction().start();
+		ArrayList<TModelo> modelo = (ArrayList<TModelo>) FactoriaQuery.getInstance().createQueryModelo().execute(query);
+		if (modelo != null)
+			TransactionManager.getInstance().getTransaction().commit();
+		else
+			TransactionManager.getInstance().getTransaction().rollback();
+		TransactionManager.getInstance().deleteTransaction();
+		return modelo;
+	}
+}

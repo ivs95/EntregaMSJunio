@@ -1,0 +1,23 @@
+
+package Presentación.Controlador;
+
+import Presentación.Comandos.Command;
+import Presentación.Comandos.Contexto;
+import Presentación.Factorias.FactoriaCommand;
+
+
+public class ApplicationControllerImp extends ApplicationController {
+
+	public void ejecutar(Contexto contexto) {
+		// Primera ejecucion del comando que va a la capa de negocio:
+		Command comando = FactoriaCommand.getInstance().generarCommand(contexto.getEvento());
+		Contexto contextoDevuelto = comando.execute(contexto);
+		// si el contexto devuelto es null siginificara que es una creacion de una vista normal;
+		// si no, busca a traves del evento devuelto la vista que le
+		// corresponde y la actualiza con la función Actualizar de la clase Ventana.
+		if (contextoDevuelto != null) {
+			comando = FactoriaCommand.getInstance().actualizarVista(contextoDevuelto.getEvento());
+			comando.execute(contexto);
+		}
+	}
+}

@@ -1,0 +1,269 @@
+/**
+ * 
+ */
+package Presentación.Cliente;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+
+import Presentación.Comandos.Contexto;
+import java.awt.Cursor;
+
+/**
+ * <!-- begin-UML-doc --> <!-- end-UML-doc -->
+ * 
+ * @author nacho710
+ * @generated "UML a Java
+ *            (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ */
+public class VentanaClienteImp extends VentanaCliente {
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private panelAñadirCliente anadir;
+	private panelEliminarCliente eliminar;
+	private panelActualizarCliente actualizar;
+	private panelMostrarClienteID mID;
+	private panelMostrarTodoCliente mAll;
+	private panelQueryCliente query;
+	private JButton botonanadir;
+	private JButton botonEliminar;
+	private JButton botonActualizar;
+	private JButton botonMostrarID;
+	private JButton botonMostrarTodo;
+	private JButton botonQuery;
+
+	public VentanaClienteImp() {
+
+		initComponent();
+	}
+
+	public void initPanel() {
+
+		anadir = new panelAñadirCliente();
+		eliminar = new panelEliminarCliente();
+		actualizar = new panelActualizarCliente();
+		mID = new panelMostrarClienteID();
+		mAll = new panelMostrarTodoCliente();
+		query = new panelQueryCliente();
+		contentPane = new JPanel();
+
+	}
+
+	public void initComponent() {
+		initPanel();
+
+		setResizable(false);
+		setVisible(true);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 737, 598);
+
+		contentPane.setBackground(Color.WHITE);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.LIGHT_GRAY);
+		panel_1.setBounds(0, 0, 731, 93);
+		contentPane.add(panel_1);
+		panel_1.setLayout(new GridLayout(1, 1, 0, 0));
+
+		JPanel panel2 = new JPanel();
+		panel2.setBackground(Color.LIGHT_GRAY);
+		panel2.setBounds(0, 93, 731, 476);
+		contentPane.add(panel2);
+		panel2.setLayout(new BorderLayout(0, 0));
+
+		ArrayList<JPanel> paneles = new ArrayList<JPanel>();
+		anadir.setVisible(true);
+		paneles.add(anadir);
+
+		eliminar.setVisible(true);
+		paneles.add(eliminar);
+
+		actualizar.setVisible(true);
+		paneles.add(actualizar);
+
+		mID.setVisible(true);
+		paneles.add(mID);
+
+		mAll.setVisible(true);
+		paneles.add(mAll);
+
+		query.setVisible(true);
+		paneles.add(query);
+
+		botonanadir = new JButton("Añadir cliente");
+		botonanadir.setForeground(Color.BLACK);
+		botonanadir.setBackground(Color.WHITE);
+
+		botonanadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel2.removeAll();
+				setTitle("Add cliente");
+				anadir.resetCamps();
+				panel2.add(paneles.get(0), SwingConstants.CENTER);
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+
+			}
+		});
+		panel_1.add(botonanadir);
+
+		botonEliminar = new JButton("Eliminar cliente");
+		botonEliminar.setForeground(Color.BLACK);
+		botonEliminar.setBackground(Color.WHITE);
+		botonEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel2.removeAll();
+				setTitle("Eliminar cliente");
+				eliminar.resetCamps();
+				panel2.add(paneles.get(1), SwingConstants.CENTER);
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+
+			}
+		});
+		panel_1.add(botonEliminar);
+
+		botonActualizar = new JButton("<html>Actualizar<br /> cliente</html>");
+		botonActualizar.setForeground(Color.BLACK);
+		botonActualizar.setBackground(Color.WHITE);
+		botonActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panel2.removeAll();
+				setTitle("Actualizar cliente");
+				actualizar.resetCamps();
+				panel2.add(paneles.get(2), SwingConstants.CENTER);
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+
+			}
+		});
+		panel_1.add(botonActualizar);
+
+		botonMostrarID = new JButton("<html>Mostrar cliente<br /> por su ID </html>");
+		botonMostrarID.setForeground(Color.BLACK);
+		botonMostrarID.setBackground(Color.WHITE);
+
+		botonMostrarID.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel2.removeAll();
+				setTitle("Mostrar clientes por ID");
+				mID.resetCamps();
+				panel2.add(paneles.get(3), SwingConstants.CENTER);
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+			}
+		});
+		panel_1.add(botonMostrarID);
+
+		botonMostrarTodo = new JButton("<html>Mostrar todos<br /> los clientes</html>");
+		botonMostrarTodo.setForeground(Color.BLACK);
+		botonMostrarTodo.setBackground(Color.WHITE);
+
+		botonMostrarTodo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel2.removeAll();
+				setTitle("Mostrar todos los clientes ");
+				mAll.resetCamps();
+				panel2.add(paneles.get(4), SwingConstants.CENTER);
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+			}
+		});
+		panel_1.add(botonMostrarTodo);
+
+		botonQuery = new JButton("<html>Query clientes</html>");
+		botonQuery.setForeground(Color.BLACK);
+		botonQuery.setBackground(Color.WHITE);
+
+		botonQuery.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel2.removeAll();
+				setTitle("Query clientes ");
+				query.resetCamps();
+				panel2.add(paneles.get(5), SwingConstants.CENTER);
+				SwingUtilities.updateComponentTreeUI(getContentPane());
+			}
+		});
+		panel_1.add(botonQuery);
+
+		setLocationRelativeTo(null);
+
+	}
+
+	@Override
+	public void actualizar(Contexto contexto) {
+
+		switch (contexto.getEvento()) {
+		case AñadirClienteCommand:
+			JOptionPane.showMessageDialog(null, "Se ha creado el cliente nuevo con id " + contexto.getDato());
+			break;
+		case AñadirClienteCommandError:
+			if ((int) contexto.getDato() == -2)
+				JOptionPane.showMessageDialog(null, "El DNI introducido ya existe");
+			else if ((int) contexto.getDato() == -3)
+				JOptionPane.showMessageDialog(null, "El DNI introducido no es valido");
+			else if ((int) contexto.getDato() == -4)
+				JOptionPane.showMessageDialog(null, "El telefono introducido no es valido");
+			else
+				JOptionPane.showMessageDialog(null, "No se ha podido añadir el cliente");
+			break;
+		case EliminarClienteCommand:
+			JOptionPane.showMessageDialog(null,
+					"Se ha eliminado el cliente con id" + contexto.getDato() + "\n existosamente");
+			break;
+		case EliminarClienteCommandError:
+			if ((int) contexto.getDato() == -2)
+				JOptionPane.showMessageDialog(null, "El cliente no existe");
+			else if ((int) contexto.getDato() == -1)
+				JOptionPane.showMessageDialog(null, "El cliente ya esta inactivo");
+		case ActualizarClienteCommand:
+			actualizar.actualizar(contexto);
+			break;
+		case ActualizarClienteCommand2Vueta:
+			JOptionPane.showMessageDialog(null, "El cliente se actualizo correctamente");
+			break;
+		case ActualizarClienteCommandError:
+			JOptionPane.showMessageDialog(null, "Error al actualizar");
+			break;
+		case MostrarClienteCommand:
+			mID.actualizar(contexto);
+			break;
+		case MostrarClienteCommandError:
+			JOptionPane.showMessageDialog(null, "No existe el cliente");
+			break;
+		case MostrarListaClienteCommand:
+			mAll.actualizar(contexto);
+			break;
+		case MostrarListaClienteCommandError:
+			JOptionPane.showMessageDialog(null, "No hay clientes registrados \n en la base de datos");
+			break;
+		case QueryClienteCommand:
+			query.actualizar(contexto);
+			break;
+		case QueryClienteCommandError:
+			JOptionPane.showMessageDialog(null, "No se han encontrado resultados para la query indicada");
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void resetCamps() {
+
+	}
+}

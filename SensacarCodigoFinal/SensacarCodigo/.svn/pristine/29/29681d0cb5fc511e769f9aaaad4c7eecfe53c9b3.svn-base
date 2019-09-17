@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+package Presentación.Controlador;
+
+import Presentación.Comandos.Command;
+import Presentación.Comandos.Contexto;
+import Presentación.Factorias.FactoriaCommand;
+
+/**
+ * <!-- begin-UML-doc --> <!-- end-UML-doc -->
+ * 
+ * @author nacho710
+ * @generated "UML a Java
+ *            (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ */
+public class ApplicationControllerImp extends ApplicationController {
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see ApplicationController#ejecutar(Contexto contexto)
+	 * @generated "UML a Java
+	 *            (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
+	public void ejecutar(Contexto contexto) {
+		// Primera ejecucion del comando que va a la capa de negocio:
+		Command comando = FactoriaCommand.getInstance().generarCommand(contexto.getEvento());
+		Contexto vista = comando.execute(contexto);
+		// si el contexto devuelto es null siginificara que es una creacion de
+		// una vista normal;
+		// si no es null busca a traves del evneto de vuelto la vista que le
+		// corresponde y la actuliza con el Actualizar de Ventana.
+		if (vista != null) {
+			comando = FactoriaCommand.getInstance().actualizarVista(vista.getEvento());
+			comando.execute(contexto);
+		}
+	}
+}

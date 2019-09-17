@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+package Presentación;
+
+import javax.swing.JFrame;
+
+import Presentación.Comandos.Contexto;
+
+
+/** 
+* <!-- begin-UML-doc -->
+* <!-- end-UML-doc -->
+* @author nacho710
+* @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+*/
+public abstract class VentanaPrincipal extends JFrame implements Ventana {
+	/**
+	 * 
+	 */
+	public static VentanaPrincipal instance = null;
+	public static VentanaPrincipal getInstance() {
+		if(instance==null)
+			instance = new VentanaPrincipalImp();
+		return instance;
+	}
+	 
+	@Override
+	public abstract void actualizar(Contexto contexto) ;
+}
